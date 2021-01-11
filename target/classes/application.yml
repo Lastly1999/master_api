@@ -1,0 +1,25 @@
+# 端口配置
+server:
+  port: 5000
+spring:
+#  数据库配置
+  datasource:
+    name:
+    url: jdbc:mysql://rm-bp1d6v244j0t5xd15ko.mysql.rds.aliyuncs.com/masterdb?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=UTC
+    username: crx
+    password: Chen1027
+    driver-class-name: com.mysql.cj.jdbc.Driver
+# mybatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  #配置模型路径(实体类的位置)
+  type-aliases-package: com.example.api.Model
+
+# 配置分页插件
+# pagehelper插件配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params:
+   count:countSql

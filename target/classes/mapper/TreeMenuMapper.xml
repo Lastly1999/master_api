@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.api.Dao.TreeMenuDao">
+    <sql id="menu">treemenutable</sql>
+
+    <!-- 查询全部菜单 -->
+    <select id="getTreeMenuList" resultType="com.example.api.Model.TreeMenuTable">
+        SELECT
+        *
+        FROM
+        <include refid="menu"/>
+        WHERE
+        menuName LIKE "%" #{keywords} "%"
+    </select>
+
+    <!-- 修改菜单记录 -->
+    <update id="editTreeMenuList" parameterType="com.example.api.Model.TreeMenuTable" >
+        update
+        <include refid="menu"/>
+        <trim prefix="set" prefixOverrides="," suffix="where menuId=#{MenuId}">
+            <if test="menuName!=null">menuName=#{MenuName},</if>
+            <if test="menuPath!=null">menuPath=#{MenuPath},</if>
+            <if test="menuIcon!=null">menuIcon=#{MenuIcon},</if>
+            <if test="menuParentId!=null">menuParentId=#{MenuParentId},</if>
+            <if test="roleId!=null">roleId=#{RoleId},</if>
+            <if test="menuParentName!=null">menuParentName=#{MenuParentName}</if>
+        </trim>
+    </update>
+
+    <!-- 添加菜单 -->
+    <insert id="addTreeMenuList" parameterType="com.example.api.Model.TreeMenuTable" useGeneratedKeys="true" keyProperty="menuId">
+        insert into
+        <include refid="menu"/>
+        (MenuName,MenuPath,MenuIcon,MenuParentId,RoleId)
+        VALUES(#{menuName},#{menuPath},#{menuIcon},#{menuParentId},#{roleId})
+    </insert>
+
+    <!-- 删除菜单 -->
+    <delete id="delTreeMenuList" parameterType="java.lang.Integer">
+        delete
+        from
+        <include refid="menu"/>
+        where
+        menuId = #{menuId}
+    </delete>
+
+    <!-- 查询导航菜单表字段 -->
+    <select id="getTreeMenuCol" resultType="com.example.api.Model.TreeMenuCol">
+        SELECT
+        COLUMN_NAME,
+        COLUMN_COMMENT
+        FROM
+        INFORMATION_SCHEMA.COLUMNS
+        WHERE
+        table_name = 'treemenutable'
+    </select>
+</mapper>

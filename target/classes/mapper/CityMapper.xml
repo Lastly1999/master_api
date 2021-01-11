@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace 映射Dao层 -->
+<mapper namespace="com.example.api.Dao.CityTableDao">
+    <!-- 表名作为标签id使用 -->
+    <sql id="city">city</sql>
+    <!-- 查询全部列表带模糊查询 -->
+    <select id="getAllCityList" resultType="com.example.api.Model.CityTable">
+        SELECT
+        *
+        FROM
+        <include refid="city"/>
+        WHERE
+        Name LIKE "%" #{address} "%"
+        ORDER by Id
+    </select>
+
+    <!-- 查询要添加修改删除的数据是否存在 -->
+    <select id="getExist" resultType="com.example.api.Model.CityTable">
+        SELECT
+        *
+        FROM
+        <include refid="city"/>
+        WHERE
+        Name = #{name}
+    </select>
+
+    <!-- 新增一条记录 -->
+    <insert id="appendCityList" parameterType="com.example.api.Model.CityTable" useGeneratedKeys="true" keyProperty="ID">
+        insert into
+        <include refid="city"/>
+        (Name,CountryCode,District,Population,flag)
+        VALUES(#{name},#{countryCode},#{district},#{population},#{flag})
+    </insert>
+
+    <!-- 修改一条记录 -->
+    <update id="editCityList" parameterType="com.example.api.Model.CityTable" >
+        update
+        <include refid="city"/>
+        <trim prefix="set" prefixOverrides="," suffix="where ID=#{Id}">
+            <if test="Name!=null">Name=#{name},</if>
+            <if test="CountryCode!=null">CountryCode=#{countryCode},</if>
+            <if test="District!=null">District=#{district}</if>
+        </trim>
+    </update>
+
+    <!--  删除记录  -->
+    <update id="deleteCityList" parameterType="com.example.api.Model.CityTable">
+        update
+        <include refid="city"/>
+        SET
+        flag = "false"
+        WHERE
+        ID = #{Id}
+    </update>
+</mapper>

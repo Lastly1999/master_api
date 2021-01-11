@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace 映射Dao层 -->
+<mapper namespace="com.example.api.Dao.UserDao">
+    <!-- 表名作为标签id使用 -->
+    <sql id="user">usertable</sql>
+    <!-- 用户登录查询 -->
+    <select id="loginAction" resultType="com.example.api.Model.UserTable">
+        SELECT
+        *
+        FROM
+        <include refid="user"/>
+        WHERE
+        userName = #{userName}
+        AND
+        passWord = #{passWord}
+    </select>
+    <!-- 全部用户查询 -->
+    <select id="getUserList" resultType="com.example.api.Model.UserTable">
+        SELECT
+        *
+        FROM
+        <include refid="user"></include>
+    </select>
+    <!-- 用户注册 -->
+    <insert id="registerUser" parameterType="com.example.api.Model.UserTable" useGeneratedKeys="true" keyProperty="userId">
+        insert into
+        <include refid="user"/>
+        (username,password,usernike)
+        VALUES(#{userName},#{passWord},#{userNike})
+    </insert>
+</mapper>
