@@ -11,7 +11,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
-
+    /**
+     * Java Bean类封 配置springboot 跨域请求功能 委托WebMvcConfigurer实现配置
+     * @return
+     */
     @Bean
     public WebMvcConfigurer corsConfigurer()
     {

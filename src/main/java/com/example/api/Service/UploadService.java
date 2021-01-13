@@ -1,38 +1,44 @@
 package com.example.api.Service;
-
-
 import com.example.api.Utils.ResultData;
 import com.example.api.Utils.ResultUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.transform.Result;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
+
+
 @Service
 public class UploadService {
+
+    /**
+     * 上传图片处理
+     * @param file
+     * @return
+     */
     public ResultData upload(MultipartFile file){
-        // 获取图片原文件名
-        String fileName = file.getOriginalFilename();
-        // 用时间戳来为图片命名
-        long fileDateName = new Date().getTime();
+        // 获取文件名
+        String originalFilename = file.getOriginalFilename();
         // 获取文件后缀名
-        String suffixName = fileName.substring(fileName.lastIndexOf("."));
-        // 判断是否为图片格式
-        if(!suffixName.equalsIgnoreCase(".jpg") && !suffixName.equalsIgnoreCase(".png") && !suffixName.equalsIgnoreCase(".gif")){
-            return ResultUtils.UploadError("格式有误,只支持上传图片格式");
+        String lastStr = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String expandName = originalFilename.substring(originalFilename.lastIndexOf("."),originalFilename.length());
+        if(!expandName.equalsIgnoreCase(".jpg") && !expandName.equalsIgnoreCase(".png") && !expandName.equalsIgnoreCase(".gif") && !expandName.equalsIgnoreCase(".bmp")){
+            return ResultUtils.UploadError("上传失败，照片格式有误!");
         }
-        // 文件夹路径
-        String targetFilePath = "D:\\";
-        // 创建file文件
-        File destFile = new File(targetFilePath+ fileDateName + suffixName);
+        // 获取当前时间戳作为文件名
+        long timeStamp = new Date().getTime();
+        // 新的文件名
+        String newFileName = timeStamp + lastStr;
+
         try {
-            file.transferTo(destFile);
-            return ResultUtils.UploadSuccess(targetFilePath.replaceAll("\\\\","/")+ fileDateName + suffixName);
+            // 文件写入
+            file.transferTo(new File("C:\\Users\\Administrator\\Desktop\\upload\\" + newFileName));
         } catch (IOException e) {
             e.printStackTrace();
-            return ResultUtils.UploadError("上传异常");
         }
+        return ResultUtils.UploadSuccess(newFileName);
     }
 }

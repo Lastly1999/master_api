@@ -1,5 +1,7 @@
 com\example\api\Service\CityService.class
 com\example\api\Dao\TreeMenuDao.class
+com\example\api\Service\AuthCodeService.class
+com\example\api\Controller\AuthCodeController.class
 com\example\api\Utils\ResultEnumUtils.class
 com\example\api\Utils\TreeTools\TreeTools.class
 com\example\api\Dao\UserDao.class
@@ -14,6 +16,7 @@ com\example\api\Controller\UserController.class
 com\example\api\Controller\TreeMenuController.class
 com\example\api\Utils\Cors\CorsConfig$1.class
 com\example\api\Service\UserService.class
+com\example\api\Model\TreeMenuCol.class
 com\example\api\Dao\CityTableDao.class
 com\example\api\Controller\UploadController.class
 com\example\api\Utils\Cors\CorsConfig.class

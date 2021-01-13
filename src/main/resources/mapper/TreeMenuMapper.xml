@@ -10,8 +10,6 @@
         *
         FROM
         <include refid="menu"/>
-        WHERE
-        menuName LIKE "%" #{keywords} "%"
     </select>
 
     <!-- 修改菜单记录 -->
